@@ -1,0 +1,36 @@
+.hidden {
+    display: none;
+}
+
+
+
+#clock{
+    text-align: center;
+    height:260px;
+    font-size:8rem;
+    margin:10px;
+    color:rgb(255, 255, 255);    
+    padding:-100px;
+}
+
+#backgroudImage{
+    position:absolute;
+    left:0;
+    top:0;
+	max-width:100%;
+    min-width:1880px;;
+    max-height:1400px;
+    min-height:1200px;
+    z-index:-5;
+    filter: brightness(60%);
+}
+
+#calendar{
+    text-align: center;
+    height:500px;
+    margin:10px;
+    margin-left:10%;
+    max-width:30%;
+    color:rgb(255, 255, 255);    
+    padding:-100px;
+}
