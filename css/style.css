@@ -1,14 +1,25 @@
+
+/* . 은 html의 class를 의미함 */
+/* hidden의 class를 display하지 않는 것으로 공용으로 사용하기위함 */
 .hidden {
     display: none;
 }
 
+.container {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    
+}
 
 
+/* #은 html의 id를 의미함 */
 #clock{
     text-align: center;
     height:260px;
-    font-size:8rem;
+    font-size:9rem;
     margin:10px;
+    margin-top: 10%;
     color:rgb(255, 255, 255);    
     padding:-100px;
 }
@@ -28,9 +39,10 @@
 #calendar{
     text-align: center;
     height:500px;
+    width:500px;
     margin:10px;
-    margin-left:10%;
-    max-width:30%;
+    margin-left:15%;
+    max-width:50%;
     color:rgb(255, 255, 255);    
     padding:-100px;
 }
