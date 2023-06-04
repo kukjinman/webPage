@@ -6,7 +6,7 @@
 }
 
 .container {
-    text-align: center;
+    align-self: center;
     display: flex;
     flex-direction: row;
     
@@ -17,9 +17,8 @@
 #clock{
     text-align: center;
     height:260px;
-    font-size:9rem;
+    font-size:6rem;
     color:rgb(255, 255, 255);    
-    padding:2.1% 5.7%;
 }
 
 #backgroudImage{
@@ -31,15 +30,13 @@
     max-height:1400px;
     min-height:1200px;
     z-index:-5;
-    filter: brightness(60%);
+    filter: brightness(80%);
 }
 
 #calendar{
     text-align: center;
     height:500px;
     width:500px;
-    margin:10px;
-    margin-left:15%;
     max-width:50%;
     color:rgb(255, 255, 255);    
     padding:-100px;
