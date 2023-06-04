@@ -14,12 +14,36 @@
 
 
 /* #은 html의 id를 의미함 */
-#clock{
+/* #clock{
     text-align: center;
     height:260px;
     font-size:6rem;
     color:rgb(255, 255, 255);    
+} */
+
+
+/* 작은 해상도에 대한 스타일 */
+@media (max-width: 480px) {
+  #clock {
+    font-size: 3rem;
+  }
 }
+
+/* 중간 해상도에 대한 스타일 */
+@media (min-width: 481px) and (max-width: 768px) {
+  #clock {
+    font-size: 5rem;
+  }
+}
+
+/* 큰 해상도에 대한 스타일 */
+@media (min-width: 769px) {
+  #clock {
+    font-size: 8rem;
+  }
+}
+
+
 
 #backgroudImage{
     position:absolute;
