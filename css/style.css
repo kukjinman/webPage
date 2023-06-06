@@ -76,35 +76,25 @@ body {
 #login-form input:first-child:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
-#login-form input:hover::-webkit-input-placeholder {
-  /*placeholder color change*/
-  color: rgb(50, 50, 50);
-}
+
 #login-form input:first-child:focus {
   outline: none;
   border-bottom: 1px solid white;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(190, 62, 62, 0);
 }
-#login-form input:nth-child(2) {
-  margin-left: 20px;
-  width: 100px;
-  height: 40px;
-  border-radius: 30px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.6);
-  color: rgb(80, 80, 80);
-  font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-  outline: none;
-  cursor: pointer;
-  transition: all, 0.4s;
-}
-#login-form input:nth-child(2):hover {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-#login-form input:nth-child(2):active {
-  background-color: darkgray;
-  color: white;
-  outline: none;
+
+
+
+
+.drop-area {
+  margin-top: 10%;
+  width: 400px;
+  height: 150px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #777;
 }
