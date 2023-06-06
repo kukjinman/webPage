@@ -3,10 +3,13 @@ const todoForm = document.getElementById("todo-form");
 // const todoInput = document.querySelector("#todo-form input");
 const todoInput = todoForm.querySelector("input");
 const todoList = document.getElementById("todo-list");
+const curDateDisplay = document.getElementById("cur_date");
+
 
 const TODOS_KEY = "todos";
-let toDos = [];
-let ClickedDate;
+const TODOSLIST_KEY = "todoLists";
+// let toDos = [];
+let CurrentDate;
 
 function TodoList(date) {
     this.date = date;
@@ -18,9 +21,9 @@ const todoLists = [];
 
 function saveToDos() {
     // localStorage.setItem("todos", toDos);
-    localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
+    // localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
     // console.log("save" +  JSON.stringify(toDos));
-    localStorage.setItem("todoLists",JSON.stringify(todoLists));
+    localStorage.setItem(TODOSLIST_KEY,JSON.stringify(todoLists));
 }
 
 function deleteToDo(event) {
@@ -30,10 +33,12 @@ function deleteToDo(event) {
     //const li로 받아서 remove해주면 행이 사라진다.
     const li = event.target.parentElement;
 
-    toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+    // toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+    todoLists.forEach(todoList => {
+        todoList.todos = todoList.todos.filter(todo => todo.id !== parseInt(li.id));
+    });
 
-    console.log(toDos);
-
+    console.log(todoLists);
     li.remove();
     saveToDos();
 }
@@ -84,8 +89,8 @@ function handleToDoSummit(event) {
         text: newTodo,
     };
 
-    toDos.push(newTodoObj);
-    addNewTodo(ClickedDate,newTodoObj);
+    // toDos.push(newTodoObj);
+    addNewTodo(CurrentDate,newTodoObj);
 
     paintToDo(newTodoObj);
     saveToDos();
@@ -93,24 +98,62 @@ function handleToDoSummit(event) {
 
 todoForm.addEventListener("submit", handleToDoSummit);
 
-const savedToDos = localStorage.getItem(TODOS_KEY);
+// const savedToDos = localStorage.getItem(TODOS_KEY);
 
-if (savedToDos !== null) {
-    console.log(savedToDos);
+// if (savedToDos !== null) {
+//     console.log(savedToDos);
 
-    const parsedToDos = JSON.parse(savedToDos);
-    // console.log(parsedToDos);
+//     const parsedToDos = JSON.parse(savedToDos);
+//     // console.log(parsedToDos);
 
-    //화면이 refresh될떄마다 맨위에 줄에서 toDos가 []로 초기화 된다.
-    //toDos는 누적되서 계속 todo를가지고 있는 array여서 기존에 있던 todo를
-    //유지하고 싶으면 맨처음 기존 todo를 로드할때도 toDos를 업데이트 해줘야 한다.
-    toDos = parsedToDos;
-    parsedToDos.forEach(paintToDo);
+//     //화면이 refresh될떄마다 맨위에 줄에서 toDos가 []로 초기화 된다.
+//     //toDos는 누적되서 계속 todo를가지고 있는 array여서 기존에 있던 todo를
+//     //유지하고 싶으면 맨처음 기존 todo를 로드할때도 toDos를 업데이트 해줘야 한다.
+//     toDos = parsedToDos;
+//     parsedToDos.forEach(paintToDo);
 
 
+
+// }
+
+const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
+// localStorage에서 받아오면 string으로 받아짐
+
+if(savedToDosList !== null)
+{
+    console.log("todoList : " + savedToDosList);
+// todoList : [{"date":"2023-06-08","todos":[{"id":1686040281658,"text":"1"},{"id":1686040281905,"text":"2"},{"id":1686040282154,"text":"3"},{"id":1686040282970,"text":"4"}]}
+// ,{"date":"2023-06-15","todos":[{"id":1686040287049,"text":"5"},{"id":1686040287401,"text":"6"}]}]
+// 위와 같은 예시가 있을때
+
+// console.log(typeof(savedToDosList));
+
+    const parsedToDosList = JSON.parse(savedToDosList);
+
+// parsedToDosList JSON으로 변환된 parsedToDosList은 string인savedToDosList 를
+//[] 배열로 변경해 준 것이다.
+    console.log(typeof(parsedToDosList));
+
+    //배열인 parsedToDosList은 forEach를 돌릴 수 있다. 
+    parsedToDosList.forEach(mParsedToDosList => {
+
+
+        if(mParsedToDosList.date === CurrentDate)
+        {
+
+            
+            mParsedToDosList.todos.forEach(paintToDo);
+
+        }
+
+
+    })
 
 }
 
-export function setClickedDate(date) {
-    ClickedDate = date;
+
+export function setCurrentDate(date) {
+    CurrentDate = date;
+    curDateDisplay.textContent = date + " 일정";
+    console.log("setCurrentDate is called " + CurrentDate);
 }
