@@ -1,4 +1,4 @@
-import { setCurrentDate } from "./todo.js";
+import { setCurrentDate, loadCurrentDateTodo} from "./todo.js";
 
 function calendar_init() {
     var calendarEl = document.getElementById('calendar');
@@ -12,6 +12,7 @@ function calendar_init() {
             console.log('Clicked on: ' + info.dateStr);
             // addEvent(info.date);
             setCurrentDate(info.dateStr);
+            loadCurrentDateTodo();
         }
     });
     var today = new Date();

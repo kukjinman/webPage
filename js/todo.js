@@ -16,7 +16,7 @@ function TodoList(date) {
     this.todos = [];
 }
 
-const todoLists = [];
+let todoLists = [];
 
 
 function saveToDos() {
@@ -27,6 +27,7 @@ function saveToDos() {
 }
 
 function deleteToDo(event) {
+    console.log("deleteToDo - ");
 
     //event는 버튼 클릭하면 받는 default param이고 event.target은 버튼이 된다.
     //target.parentElement는 li로 우리가 없애고자 하는 list니까
@@ -38,13 +39,14 @@ function deleteToDo(event) {
         todoList.todos = todoList.todos.filter(todo => todo.id !== parseInt(li.id));
     });
 
-    console.log(todoLists);
     li.remove();
     saveToDos();
 }
 
 
 function paintToDo(newTodo) {
+    // console.log("paintToDo - ");
+
     const todo_cur_li = document.createElement("li");
     todo_cur_li.id = newTodo.id;
     const todo_cur_span = document.createElement("span");
@@ -63,6 +65,9 @@ function paintToDo(newTodo) {
 
 // 새로운 Todo 추가 함수
 function addNewTodo(date, newTodo) {
+    console.log("addNewTodo - ");
+
+
     // 해당 날짜의 TodoList 찾기
     let curTodoList = todoLists.find(list => list.date === date);
 
@@ -78,6 +83,8 @@ function addNewTodo(date, newTodo) {
 
 
 function handleToDoSummit(event) {
+    console.log("handleToDoSummit - ");
+
     event.preventDefault();
 
     const newTodo = todoInput.value;
@@ -118,42 +125,67 @@ todoForm.addEventListener("submit", handleToDoSummit);
 
 const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
 // localStorage에서 받아오면 string으로 받아짐
+const parsedToDosList = JSON.parse(savedToDosList);
 
-if(savedToDosList !== null)
+todoLists = parsedToDosList;
+
+export function loadCurrentDateTodo()
 {
-    console.log("todoList : " + savedToDosList);
-// todoList : [{"date":"2023-06-08","todos":[{"id":1686040281658,"text":"1"},{"id":1686040281905,"text":"2"},{"id":1686040282154,"text":"3"},{"id":1686040282970,"text":"4"}]}
-// ,{"date":"2023-06-15","todos":[{"id":1686040287049,"text":"5"},{"id":1686040287401,"text":"6"}]}]
-// 위와 같은 예시가 있을때
+    console.log("loadCurrentDateTodo - ");
+    while (todoList.firstChild) {
+        todoList.removeChild(todoList.firstChild);
+    }
+    //여기서도 load할때마다 localStorage를 다시 가져와야함.
+    // 위의 전역에서 가져오면 맨 초기 부팅때만 가져오고 old한 값을 계속 가져옴    
+    const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
 
-// console.log(typeof(savedToDosList));
+    if(savedToDosList !== null)
+    {
+        console.log("todoList : " + savedToDosList);
+    // todoList : [{"date":"2023-06-08","todos":[{"id":1686040281658,"text":"1"},{"id":1686040281905,"text":"2"},{"id":1686040282154,"text":"3"},{"id":1686040282970,"text":"4"}]}
+    // ,{"date":"2023-06-15","todos":[{"id":1686040287049,"text":"5"},{"id":1686040287401,"text":"6"}]}]
+    // 위와 같은 예시가 있을때
+    
+    // console.log(typeof(savedToDosList));
+    
+        const parsedToDosList = JSON.parse(savedToDosList);
+        //local의 todoLists를 업데이트 나중에 saveTodos될때 전체 다 저장되도록 하기 위함.
+        // todoLists = parsedToDosList;
 
-    const parsedToDosList = JSON.parse(savedToDosList);
 
-// parsedToDosList JSON으로 변환된 parsedToDosList은 string인savedToDosList 를
-//[] 배열로 변경해 준 것이다.
-    console.log(typeof(parsedToDosList));
-
-    //배열인 parsedToDosList은 forEach를 돌릴 수 있다. 
-    parsedToDosList.forEach(mParsedToDosList => {
-
-
-        if(mParsedToDosList.date === CurrentDate)
-        {
-
+    // parsedToDosList JSON으로 변환된 parsedToDosList은 string인savedToDosList 를
+    //[] 배열로 변경해 준 것이다.
+        // console.log(typeof(parsedToDosList));
+    
+        //배열인 parsedToDosList은 forEach를 돌릴 수 있다. 
+        parsedToDosList.forEach(mParsedToDosList => {
+    
+    
+            console.log("test " + mParsedToDosList.date );
             
-            mParsedToDosList.todos.forEach(paintToDo);
-
-        }
-
-
-    })
+            console.log("test 2 " + CurrentDate );
+            if(mParsedToDosList.date === CurrentDate)
+            {
+                
+                mParsedToDosList.todos.forEach(paintToDo);
+    
+            }
+    
+    
+        })
+    
+    }
+    
+    saveToDos();
 
 }
 
 
 export function setCurrentDate(date) {
+    console.log("setCurrentDate - ");
+
     CurrentDate = date;
     curDateDisplay.textContent = date + " 일정";
-    console.log("setCurrentDate is called " + CurrentDate);
+    // console.log("setCurrentDate is called " + CurrentDate);
+    loadCurrentDateTodo();
 }
