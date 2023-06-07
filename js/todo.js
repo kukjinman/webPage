@@ -1,3 +1,5 @@
+import { addEventToCalendar, removeEventToCalendar } from "./calendar.js";
+
 const todoForm = document.getElementById("todo-form");
 // todo-form의 id를 #로 표현
 // const todoInput = document.querySelector("#todo-form input");
@@ -23,7 +25,7 @@ function saveToDos() {
     // localStorage.setItem("todos", toDos);
     // localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
     // console.log("save" +  JSON.stringify(toDos));
-    localStorage.setItem(TODOSLIST_KEY,JSON.stringify(todoLists));
+    localStorage.setItem(TODOSLIST_KEY, JSON.stringify(todoLists));
 }
 
 function deleteToDo(event) {
@@ -37,6 +39,10 @@ function deleteToDo(event) {
     // toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
     todoLists.forEach(todoList => {
         todoList.todos = todoList.todos.filter(todo => todo.id !== parseInt(li.id));
+
+        if (todoList.todos.length === 0) {
+            removeEventToCalendar(todoList.date);
+        }
     });
 
     li.remove();
@@ -75,10 +81,22 @@ function addNewTodo(date, newTodo) {
     if (!curTodoList) {
         curTodoList = new TodoList(date);
         todoLists.push(curTodoList);
+
+
     }
+
+
 
     // TodoList에 Todo 추가
     curTodoList.todos.push(newTodo);
+
+    if (curTodoList.todos.length === 1) {
+        addEventToCalendar({
+            id: CurrentDate,
+            title: "",
+            start: CurrentDate,
+        });
+    }
 }
 
 
@@ -97,7 +115,7 @@ function handleToDoSummit(event) {
     };
 
     // toDos.push(newTodoObj);
-    addNewTodo(CurrentDate,newTodoObj);
+    addNewTodo(CurrentDate, newTodoObj);
 
     paintToDo(newTodoObj);
     saveToDos();
@@ -125,12 +143,48 @@ todoForm.addEventListener("submit", handleToDoSummit);
 
 const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
 // localStorage에서 받아오면 string으로 받아짐
-const parsedToDosList = JSON.parse(savedToDosList);
 
-todoLists = parsedToDosList;
 
-export function loadCurrentDateTodo()
-{
+export function loadTodoInit() {
+    while (todoList.firstChild) {
+        todoList.removeChild(todoList.firstChild);
+    }
+    const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
+
+    if (savedToDosList !== null) {
+        console.log("todoList : " + savedToDosList);
+
+        const parsedToDosList = JSON.parse(savedToDosList);
+
+        if (parsedToDosList === null) return;
+        todoLists = parsedToDosList;
+
+        parsedToDosList.forEach(mParsedToDosList => {
+
+            if (mParsedToDosList.date === CurrentDate) {
+
+                mParsedToDosList.todos.forEach(paintToDo);
+            }
+
+
+            if (mParsedToDosList.todos.length !== 0)
+                addEventToCalendar({
+                    id: mParsedToDosList.date,
+                    title: "",
+                    start: mParsedToDosList.date
+                });
+
+        })
+
+    }
+
+    saveToDos();
+
+
+}
+
+
+export function loadCurrentDateTodo() {
     console.log("loadCurrentDateTodo - ");
     while (todoList.firstChild) {
         todoList.removeChild(todoList.firstChild);
@@ -139,43 +193,42 @@ export function loadCurrentDateTodo()
     // 위의 전역에서 가져오면 맨 초기 부팅때만 가져오고 old한 값을 계속 가져옴    
     const savedToDosList = localStorage.getItem(TODOSLIST_KEY);
 
-    if(savedToDosList !== null)
-    {
+    if (savedToDosList !== null) {
         console.log("todoList : " + savedToDosList);
-    // todoList : [{"date":"2023-06-08","todos":[{"id":1686040281658,"text":"1"},{"id":1686040281905,"text":"2"},{"id":1686040282154,"text":"3"},{"id":1686040282970,"text":"4"}]}
-    // ,{"date":"2023-06-15","todos":[{"id":1686040287049,"text":"5"},{"id":1686040287401,"text":"6"}]}]
-    // 위와 같은 예시가 있을때
-    
-    // console.log(typeof(savedToDosList));
-    
+        // todoList : [{"date":"2023-06-08","todos":[{"id":1686040281658,"text":"1"},{"id":1686040281905,"text":"2"},{"id":1686040282154,"text":"3"},{"id":1686040282970,"text":"4"}]}
+        // ,{"date":"2023-06-15","todos":[{"id":1686040287049,"text":"5"},{"id":1686040287401,"text":"6"}]}]
+        // 위와 같은 예시가 있을때
+
+        // console.log(typeof(savedToDosList));
+
         const parsedToDosList = JSON.parse(savedToDosList);
         //local의 todoLists를 업데이트 나중에 saveTodos될때 전체 다 저장되도록 하기 위함.
         // todoLists = parsedToDosList;
+        if (parsedToDosList === null) return;
+        todoLists = parsedToDosList;
 
 
-    // parsedToDosList JSON으로 변환된 parsedToDosList은 string인savedToDosList 를
-    //[] 배열로 변경해 준 것이다.
+        // parsedToDosList JSON으로 변환된 parsedToDosList은 string인savedToDosList 를
+        //[] 배열로 변경해 준 것이다.
         // console.log(typeof(parsedToDosList));
-    
+
         //배열인 parsedToDosList은 forEach를 돌릴 수 있다. 
         parsedToDosList.forEach(mParsedToDosList => {
-    
-    
-            console.log("test " + mParsedToDosList.date );
-            
-            console.log("test 2 " + CurrentDate );
-            if(mParsedToDosList.date === CurrentDate)
-            {
-                
+
+
+            console.log("test " + mParsedToDosList.date);
+
+            console.log("test 2 " + CurrentDate);
+            if (mParsedToDosList.date === CurrentDate) {
+
                 mParsedToDosList.todos.forEach(paintToDo);
-    
             }
-    
-    
+
+
         })
-    
+
     }
-    
+
     saveToDos();
 
 }
@@ -187,5 +240,5 @@ export function setCurrentDate(date) {
     CurrentDate = date;
     curDateDisplay.textContent = date + " 일정";
     // console.log("setCurrentDate is called " + CurrentDate);
-    loadCurrentDateTodo();
+    // loadCurrentDateTodo();
 }
