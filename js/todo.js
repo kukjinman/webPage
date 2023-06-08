@@ -12,6 +12,7 @@ const TODOS_KEY = "todos";
 const TODOSLIST_KEY = "todoLists";
 // let toDos = [];
 let CurrentDate;
+let curTodoList;
 
 function TodoList(date) {
     this.date = date;
@@ -75,19 +76,18 @@ function addNewTodo(date, newTodo) {
 
 
     // 해당 날짜의 TodoList 찾기
-    let curTodoList = todoLists.find(list => list.date === date);
-
-
-
+    curTodoList = todoLists.find(list => list.date === date);
     // 날짜별 TodoList가 없는 경우 새로 생성
     if (!curTodoList) {
         curTodoList = new TodoList(date);
         todoLists.push(curTodoList);
 
-
     }
 
-
+    if (curTodoList.todos.length >= 10) {
+        alert("10개 이상의 todo를 만들 수 없습니다.");
+        return;
+    }
 
     // TodoList에 Todo 추가
     curTodoList.todos.push(newTodo);
@@ -99,26 +99,15 @@ function addNewTodo(date, newTodo) {
             start: CurrentDate,
         });
     }
+
+    paintToDo(newTodo);
+
 }
 
 
 function handleToDoSummit(event) {
     console.log("handleToDoSummit - ");
     event.preventDefault();
-
-
-    let curTodoList = todoLists.find(list => list.date === CurrentDate);
-    if(curTodoList.todos !== null)
-    {
-        if (curTodoList.todos.length >= 10) {
-
-            alert("10개 이상의 todo를 만들 수 없습니다.");
-            return;
-        }
-    }
-    
-
-
 
     const newTodo = todoInput.value;
     // todo input을 reset함
@@ -132,7 +121,6 @@ function handleToDoSummit(event) {
     // toDos.push(newTodoObj);
     addNewTodo(CurrentDate, newTodoObj);
 
-    paintToDo(newTodoObj);
     saveToDos();
 }
 
@@ -179,6 +167,7 @@ export function loadTodoInit() {
             if (mParsedToDosList.date === CurrentDate) {
 
                 mParsedToDosList.todos.forEach(paintToDo);
+
             }
 
 
@@ -256,4 +245,7 @@ export function setCurrentDate(date) {
     curDateDisplay.textContent = date + " 일정";
     // console.log("setCurrentDate is called " + CurrentDate);
     // loadCurrentDateTodo();
+
+    curTodoList = todoLists.find(list => list.date === date);
+
 }
