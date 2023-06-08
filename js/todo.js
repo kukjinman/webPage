@@ -108,11 +108,15 @@ function handleToDoSummit(event) {
 
 
     let curTodoList = todoLists.find(list => list.date === CurrentDate);
-    if (curTodoList.todos.length >= 10) {
+    if(curTodoList.todos !== null)
+    {
+        if (curTodoList.todos.length >= 10) {
 
-        alert("10개 이상의 todo를 만들 수 없습니다.");
-        return;
+            alert("10개 이상의 todo를 만들 수 없습니다.");
+            return;
+        }
     }
+    
 
 
 
