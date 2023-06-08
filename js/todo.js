@@ -77,6 +77,8 @@ function addNewTodo(date, newTodo) {
     // 해당 날짜의 TodoList 찾기
     let curTodoList = todoLists.find(list => list.date === date);
 
+
+
     // 날짜별 TodoList가 없는 경우 새로 생성
     if (!curTodoList) {
         curTodoList = new TodoList(date);
@@ -102,8 +104,17 @@ function addNewTodo(date, newTodo) {
 
 function handleToDoSummit(event) {
     console.log("handleToDoSummit - ");
-
     event.preventDefault();
+
+
+    let curTodoList = todoLists.find(list => list.date === CurrentDate);
+    if (curTodoList.todos.length >= 10) {
+
+        alert("10개 이상의 todo를 만들 수 없습니다.");
+        return;
+    }
+
+
 
     const newTodo = todoInput.value;
     // todo input을 reset함
