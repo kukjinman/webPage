@@ -4,8 +4,12 @@
     display: none;
 }
 
+.main_container {
+
+  padding:3%;
+}
+
 .container {
-    align-self: center;
     display: flex;
     flex-direction: row;
 
@@ -35,7 +39,7 @@ body {
     max-height: 1400px;
     min-height: 1200px;
     z-index: -5;
-    filter: brightness(80%);
+    filter: brightness(70%);
 }
 
 #calendar {
@@ -83,18 +87,3 @@ body {
   background-color: rgba(190, 62, 62, 0);
 }
 
-
-
-
-.drop-area {
-  margin-top: 10%;
-  width: 400px;
-  height: 150px;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: #777;
-}
