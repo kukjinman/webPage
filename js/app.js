@@ -3,18 +3,18 @@ const loginInput = document.querySelector("#login-form input");
 const greeting = document.querySelector("#greeting");
 const texting = document.querySelector("#texting");
 
-
 const HIDDEN_CLASSNAME = "hidden";
 const USERNAME = "username";
 
 function onLoginSubmit(event) {
     event.preventDefault();
-    loginForm.classList.add(HIDDEN_CLASSNAME);
+    loginForm.style.display = "none";
     const username = loginInput.value;
     paintGreetings(username);
     greeting.classList.remove(HIDDEN_CLASSNAME);
     localStorage.setItem(USERNAME,username);
 
+    
     console.log("test11"); 
 }
 

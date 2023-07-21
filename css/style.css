@@ -1,72 +1,74 @@
 /* . 은 html의 class를 의미함 */
 /* hidden의 class를 display하지 않는 것으로 공용으로 사용하기위함 */
 .hidden {
-    display: none;
+  display: none;
 }
 
 .main_container {
 
-  padding:1%;
+  padding: 1%;
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center; /* 요소들을 가로 방향으로 중앙 정렬 */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* 요소들을 가로 방향으로 중앙 정렬 */
 }
 
 body {
-    padding: 100px;
+  padding: 100px;
 }
 
 /* #은 html의 id를 의미함 */
 #clock {
-    text-align: center;
-    height: 260px;
-    font-size: 8rem;
-    margin: 10px;
-    color: white;
-    white-space: nowrap;
+  text-align: center;
+  height: 260px;
+  font-size: 8rem;
+  margin: 10px;
+  color: white;
+  white-space: nowrap;
 
-  }
+}
 
 
 #backgroudImage {
-    position: absolute;
-    left: 0;
-    top: 0;
-    max-width: 100%;
-    min-width: 1880px;
-    max-height: 1400px;
-    min-height: 1200px;
-    z-index: -5;
-    filter: brightness(70%);
+  height: 100%;
+  width: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  filter: brightness(70%);
 }
 
 #calendar {
-    text-align: center;
-    height: 500px;
-    width: 500px;
-    color: rgb(255, 255, 255);
-    margin: 0 auto; /* 가로 방향으로 중앙 정렬 */
+  text-align: center;
+  height: 500px;
+  width: 500px;
+  color: rgb(255, 255, 255);
+  margin: 0 auto;
+  /* 가로 방향으로 중앙 정렬 */
 }
 
 
 
 #greeting {
-    margin: 0 auto;
-    text-align: center;
-    color: white;
-    font-weight: 400;
-    font-size: 2rem;
-    font-weight: 600;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  font-weight: 400;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-  #login-form {
+#login-form {
   text-align: center;
   color: white;
   margin: 0 auto;
 }
+
 #login-form input:first-child {
   text-align: center;
   color: white;
@@ -74,6 +76,7 @@ body {
   width: 240px;
   background-color: rgba(255, 255, 255, 0.2);
 }
+
 #login-form input:first-child:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
@@ -83,4 +86,3 @@ body {
   border-bottom: 1px solid white;
   background-color: rgba(190, 62, 62, 0);
 }
-
